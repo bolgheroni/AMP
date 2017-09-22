@@ -7,6 +7,7 @@ package sistema.dados;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import sistema.model.Grupo;
 
@@ -16,24 +17,33 @@ import sistema.model.Grupo;
  */
 public class GrupoDAO {
     
-    Connection conexao;
+    private static Connection conexao;
     
-    public void cadastrarGrupo(Grupo grupo) {
+    public static void cadastrarGrupo(Grupo grupo) {
         if (!VerificarDAO.validarCadastro(grupo)) {
             try {
                 conexao = Conexao.abrir();
-                String sql = "INSERT INTO Grupo"; //TODO: Adicionar statement
+                String sql = ""; //TODO: Adicionar statement PEPE
                 PreparedStatement ps = conexao.prepareStatement(sql);
                 ps.executeUpdate();
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
+        }     
+    }
+    
+    public static boolean logar(Grupo login){
+        String tabela = login.toString();
+        try {
+            String sql = "SELECT userName, senha FROM " + tabela + " WHERE ? = username AND senha = ?";
+            PreparedStatement ps = Conexao.abrir().prepareStatement(sql);
+            ps.setString(1, login.getUserName());
+            ps.setString(2, login.getSenha());
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
     }
-    
-    public boolean logarGrupo(Grupo grupo){
-        return VerificarDAO.validarPassword(grupo);
-    }
-    
 
 }

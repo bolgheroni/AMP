@@ -14,6 +14,9 @@ public abstract class Logavel {
     protected String userName;
     protected String senha;
 
+    public Logavel() {
+    }
+
     public Logavel(String userName, String senha) {
         this.userName = userName;
         this.senha = senha;

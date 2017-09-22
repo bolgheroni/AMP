@@ -3,16 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package sistema.servicos;
 
+import sistema.dados.GrupoDAO;
 import sistema.model.Grupo;
-import sistema.model.Maratona;
+import sistema.model.Tutor;
 
+public class GrupoServico implements GrupoServicoInterface {
 
-public class GrupoServico {
+    @Override
+    public void cadastrar(String userName, String senha, Tutor tutor) {
+        try {
+            GrupoDAO.cadastrarGrupo(new Grupo(tutor, userName, senha));
+        } catch (Exception e) {
+        }
+    }
 
-    
-
+    @Override
+    public boolean Logar(Grupo grupo) {
+        try {
+        return GrupoDAO.logar(grupo);
+        } catch (Exception e) {
+            throw  new RuntimeException(e);
+        }
+    }
 
 }
